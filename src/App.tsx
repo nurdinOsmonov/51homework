@@ -3,28 +3,30 @@ import './App.css';
 import Balloon from "./Balloon/Balloon";
 
 function App() {
-  const [numbers, setNumbers] = useState([
-    {number: Math.floor(Math.random() * (36 - 5) + 5)},
-    {number: Math.floor(Math.random() * (36 - 5) + 5)},
-    {number: Math.floor(Math.random() * (36 - 5) + 5)},
-    {number: Math.floor(Math.random() * (36 - 5) + 5)},
-    {number: Math.floor(Math.random() * (36 - 5) + 5)},
-  ])
+  const [numbers, setNumbers] = useState<number[]>([]);
 
-  const changeNumber = () => {
-    setNumbers([
-      {number: Math.floor(Math.random() * (36 - 5) + 5)},
-      {number: Math.floor(Math.random() * (36 - 5) + 5)},
-      {number: Math.floor(Math.random() * (36 - 5) + 5)},
-      {number: Math.floor(Math.random() * (36 - 5) + 5)},
-      {number: Math.floor(Math.random() * (36 - 5) + 5)},
-    ])
+  function generateSortedRandomArray() {
+    const array: number[] = [];
+    const range = 5;
+
+    const getRandom = (memo: number[]): number => {
+      const pos = Math.floor(Math.random() * (36 - 5) + 5);
+      if (memo.includes(pos)) {
+        return getRandom(memo);
+      } else {
+        return pos;
+      }
+    }
+
+    for (let i = 0; i < range; i++) {
+      array.push(getRandom(array))
+    }
+    array.sort((a, b) => a - b);
+    return array
   }
 
-  if (numbers[4].number > numbers[3].number &&
-    numbers[3].number > numbers[2].number &&
-    numbers[2].number > numbers[1].number &&
-    numbers[1].number > numbers[0].number) {
+  const changeNumber = () => {
+    setNumbers(generateSortedRandomArray())
   }
 
   return (
@@ -33,14 +35,14 @@ function App() {
         <button onClick={changeNumber} className="button-82-pushable">
           <span className="button-82-shadow"></span>
           <span className="button-82-edge"></span>
-          <span className="button-82-front text">New Numbers</span>
+          <span className="button-82-front text"> New Numbers</span>
         </button>
       </div>
-      <Balloon number={numbers[0].number}/>
-      <Balloon number={numbers[1].number}/>
-      <Balloon number={numbers[2].number}/>
-      <Balloon number={numbers[3].number}/>
-      <Balloon number={numbers[4].number}/>
+      <Balloon number={numbers[0]}/>
+      <Balloon number={numbers[1]}/>
+      <Balloon number={numbers[2]}/>
+      <Balloon number={numbers[3]}/>
+      <Balloon number={numbers[4]}/>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface BalloonProps extends React.PropsWithChildren {
+interface BalloonProps {
   number: number;
 }
 
